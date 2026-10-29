@@ -11,6 +11,7 @@
     $bannerMobileUrl = $settings->assetUrl($settings->banner_image_mobile, 'images/banner-tigo-alta.jpeg');
     $ogImageUrl = $settings->assetUrl($settings->og_image ?: $settings->banner_image, 'images/banner-tigo-alta.jpeg');
     $recaptchaEnabled = $settings->recaptchaEnabled();
+    $leadDuplicate = request()->boolean('duplicate');
 @endphp
 <!DOCTYPE html>
 <html lang="es">
@@ -109,8 +110,10 @@
                     </h1>
                 </section>
 
-                <section aria-label="Formulario de contacto">
-                    @if (session('status'))
+                <section id="contacto" aria-label="Formulario de contacto">
+                    @if ($leadDuplicate)
+                        <div class="status" role="status">{{ $settings->duplicate_message ?: 'Este numero ya se encuentra registrado. Uno de nuestros asesores lo estara contactando pronto.' }}</div>
+                    @elseif (session('status'))
                         <div class="status" role="status">{{ session('status') }}</div>
                     @endif
 
